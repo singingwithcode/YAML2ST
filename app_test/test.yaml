@@ -1,0 +1,107 @@
+---
+text_input:
+  s1: "Dynamic" 
+  s2: "Hidden" #FORCE: hide=True
+  s3: "Forced" #FORCE: w=text_input
+  s4: "Forced with helper" #FORCE: w=text_input | help="This message will help you."
+  int: 1 #FORCE: w=text_input
+  dec: 0.1 #FORCE: w=text_input
+  neg: -100 #FORCE: w=text_input
+  date: 2015-06-17 14:03:40 #FORCE: w=text_input
+  color: "#0EE2D7" #FORCE: w=text_input
+  list1: [ "one", "two", "three", "four" ] #FORCE: w=text_input
+  list2: [ 1, 2, 3, 4 ] #FORCE: w=text_input
+text_area: 
+  s1: "Dynamic\n" 
+  s2: "Hidden\n" #FORCE: hide=True
+  s3: "Forced" #FORCE: w=text_area
+  s4: "Forced with helper" #FORCE: w=text_area | help="This message will help you."
+  int: 1 #FORCE: w=text_area
+  dec: 0.1 #FORCE: w=text_area
+  neg: -100 #FORCE: w=text_area
+  date: 2015-06-17 14:03:40 #FORCE: w=text_area
+  color: "#0EE2D7" #FORCE: w=text_area
+  list1: [ "one", "two", "three", "four" ] #FORCE: w=text_area
+  list2: [ 1, 2, 3, 4 ] #FORCE: w=text_area
+num_input:
+  intDynam1: 2
+  intDynam2: -3
+  intDynam3: "4" # Not proper YAML format, but will read as num
+  decDynam1: 0.0002
+  decDynam2: -0.0003
+  decDynam3: "-0.0004" # Not proper YAML format, but will read as num
+  intHidden: 1 #FORCE: hide=True
+  decHidden: 0.0001 #FORCE: hide=True
+  intForce1: 100 #FORCE: w=number_input
+  intForce2: -200 #FORCE: w=number_input
+  #intForce3: "300" #FORCE: w=number_input # Not proper YAML format, will not FORCE this
+  decForce1: 0.1 #FORCE: w=number_input
+  decForce2: -0.0002 #FORCE: w=number_input
+  #decForce3: "0.0003" #FORCE: w=number_input # Not proper YAML format, will not FORCE this
+  int_min0_max9: 3 #FORCE: w=number_input | min_value=0 | max_value=9
+  dec_min0_max8: 0.01 #FORCE: w=number_input | min_value=0.00 | max_value=9.00
+  dec_min0_max9: 8.99 #FORCE: w=number_input | min_value=0.00 | max_value=9.00
+radio:
+  correct1: "two" #FORCE: w=radio | options=[ "one", "two", "three", "four" ]
+  correct2: 1 #FORCE: w=radio | options=[ 1, 2, 3, 4 ]
+  correct3: "two" #FORCE: w=radio | options=[ "one", "two", "three", "four" ] | index=3
+  correct4: 2 #FORCE: w=radio | options=[ 1, 2, 3, 4 ] | index=3
+  willRewrite1: [ "one", "two", "three", "four" ] #FORCE: w=radio 
+  willRewrite2: [ "one", "two", "three", "four" ] #FORCE: w=radio | index=1
+  willRewrite3: [ 1, 2, 3, 4 ] #FORCE: w=radio
+  willRewrite4: [ 1, 2, 3, 4 ] #FORCE: w=radio | index=1
+selectbox:
+  list1: [ "one", "two", "three", "four" ] #FORCE: w=selectbox | index=2
+  list2: [ 1, 2, 3, 4 ] #FORCE: w=selectbox
+  block_shape1: ellipse #FORCE: w=selectbox | options=["ellipse","rectangle"]
+  block_shape2: triangle #FORCE: w=selectbox | options=["ellipse","rectangle","triangle"]
+  block_shape3: [ "five", "two", "three", "four" ] #FORCE: w=selectbox | options=[ "one", "two", "three", "four" ]
+  block_shape4: ["five","three","four"] #FORCE: w=selectbox | options=[ "one", "two"] | index=1
+  block_shape5: [ "five", "three", "four"] #FORCE: w=selectbox | options=[ "six", "one", "two"] | index=2
+select_slider:
+  list1: [ "one", "two", "three", "four" ] #FORCE: w=select_slider
+  list2: [ 1, 2, 3, 4 ] #FORCE: w=select_slider | index=1
+slider:
+  int1: 1 #FORCE: w=slider | max_value=10
+  int2: 11 #FORCE: w=slider | min_value=9 | max_value=12
+  dec: 0.1 #FORCE: w=slider
+  neg: -100 #FORCE: w=slider
+checkbox:
+  txt: "a deer, a female deer" #FORCE: w=checkbox
+  int: 1 #FORCE: w=checkbox
+  dec: 0.1 #FORCE: w=checkbox
+  neg: -100 #FORCE: w=checkbox
+  date: 2015-06-17 14:03:40 #FORCE: w=checkbox
+  color: "#0EE2D7" #FORCE: w=checkbox
+datetimes:
+  dt1: 2010-02-11
+  dt2: 2015-06-17 14:03:40
+pickers:
+  color1: "#E20EC2"
+  color2: "#0EE2D7"
+lists:
+  items3: [ 1, 2, 3, 4, 5 ]
+  names2: [ "one", "two", "three", "four" ]
+  dict: { thing1: huey, thing2: louie, thing3: dewey }
+hierarchy: 
+  #commentL1
+  stuff1: #commentL2
+    next1: #commentL3
+      #commentL4
+      # commentL5
+      first line: 0
+      second line: 1 # another comment
+      simple text:
+      #comment
+        next7:
+          doe: "a deer, a female deer"
+          ray: "a drop of golden sun"
+        next8:
+          me: "matt"
+          #comment
+  # comment
+  stuff2:
+    simple boolean:
+      xmas: True #lots of comments
+      halloween: True
+      4th of July: False
