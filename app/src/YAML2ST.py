@@ -13,6 +13,9 @@ import copy
 import pandas as pd
 
 
+PERSISTDECIMAL = True # e.g. if YAML value 0.01 and user wants the value to be 0.001. Keep True for now. 
+
+
 class YAML2ST:
 
 
@@ -251,14 +254,14 @@ class YAML2ST:
             breadcrumb = literalParam["key"]
             del literalParam["key"]
         
-        # For number values, we need to ensure we provice the correct number's type to the input widget
+        # For number values, we need to ensure we provide the correct number's type to the input widget
         decFormat = ""
         if literalParam['w'] == 'number_input' and YAML2ST.__representsInt(value):
             if 'type' not in literalParam:
                 literalParam['type'] = "int"
         elif literalParam['w'] == 'number_input' and YAML2ST.__representsDecimal(value):
             decFormat, decStep = YAML2ST.__calcPrecision(str(value))
-            if 'format' not in literalParam:
+            if 'format' not in literalParam and PERSISTDECIMAL:
                 literalParam['format'] = "'"+str(decFormat)+"'"
             if 'step' not in literalParam:
                 literalParam['step'] = decStep
@@ -306,7 +309,7 @@ class YAML2ST:
 
             # Will enforce the decimal format in the df since floats
             if decFormat:
-                df.loc[len(df)][1] = decFormat % (df.iloc[len(df)-1, 1])
+                df.loc[len(df)] = key, decFormat % (df.iloc[len(df)-1, 1]), breadcrumb
 
         else:
             
@@ -327,7 +330,7 @@ class YAML2ST:
             dataString, forceVal = YAML2ST.__forceConfig(dataString) 
 
             # Check to see if is a dictionary within this dataDict
-            if str(value)[0] == '{': 
+            if str(value)[0] == '{':
                 breadcrumbs.append(key)
 
                 if forceVal.find('hide') == -1:
