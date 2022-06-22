@@ -160,12 +160,6 @@ class YAML2ST:
         return '"'.join(lst)
 
     
-    # YAML file to Streamlit's UploadedFile
-    def YAML2UploadedFile(filePath):
-        uploadedFileRec = UploadedFileRec(int(999), str("config.yaml"), str("application/x-yaml"), open(filePath, "rb").read())
-        return UploadedFile(uploadedFileRec)
-
-    
     # Input a YAML via Streamlit's UploadedFile and this outputs string for sharing
     def urlEncode(upload): 
         stringio = upload.getvalue()
@@ -454,9 +448,17 @@ def urlDecode(urlParamDict):
     return UploadedFile(uploadedFileRec)
 
 
+# YAML file to Streamlit's UploadedFile
+def YAML2UploadedFile(filePath):
+    uploadedFileRec = UploadedFileRec(int(999), str("config.yaml"), str("application/x-yaml"), open(filePath, "rb").read())
+    return UploadedFile(uploadedFileRec)
+
+
 # Is a raw export method that returns an unclosed file, the fileName, and a string URL to be shared. 
 # Note, export is from the streamlit dataframe. 
 def exportRaw(upload, df, URL):
+
+    upload = copy.deepcopy(upload)
 
     # Get the file details
     file_details = {"Filename":upload.name,"FileType":upload.type,"FileSize":upload.size}
@@ -469,9 +471,9 @@ def exportRaw(upload, df, URL):
 
     with open(fname, "r") as f:
         if URL != "":
-            return f, fname, str(URL + "?YAML2URL=" + YAML2ST.urlEncode(YAML2ST.YAML2UploadedFile(fname)))
+            return f, fname, str(URL + "?YAML2URL=" + YAML2ST.urlEncode(YAML2UploadedFile(fname)))
         else: 
-            return f, fname, str("?YAML2URL=" + YAML2ST.urlEncode(YAML2ST.YAML2UploadedFile(fname)))
+            return f, fname, str("?YAML2URL=" + YAML2ST.urlEncode(YAML2UploadedFile(fname)))
 
 
 # Is a pre-formatted export method that posts a Button Input Widget and Code Input Widget for
@@ -496,7 +498,7 @@ def export(upload, df, stObject, URL):
         stObject.download_button('Download', f, file_name=fname)
 
     stObject.subheader("Share With Link")
-    stObject.code(URL + "?YAML2URL=" + YAML2ST.urlEncode(YAML2ST.YAML2UploadedFile(fname)))
+    stObject.code(URL + "?YAML2URL=" + YAML2ST.urlEncode(YAML2UploadedFile(fname)))
 
     os.remove(fname)
 
