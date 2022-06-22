@@ -1,7 +1,7 @@
 import streamlit as st
 import src.YAML2ST as y2s # Use 'import YAML2ST' if downloaded as a package
 
-URL = "https://mb-app-kub02.na.pg.com:32110/user/klich.mw/dash-yaml-2-streamlit/" # For the link sharing feature, set the 
+URL = "http://localhost:9097/" # For the link sharing feature, set the 
 
 def main():
     """Demp function of YAML2ST"""
