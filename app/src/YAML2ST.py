@@ -457,26 +457,25 @@ def YAML2UploadedFile(filePath):
     return UploadedFile(uploadedFileRec)
 
 
-# Is a raw export method that returns an unclosed file, the fileName, and a string URL to be shared. 
-# Note, export is from the streamlit dataframe. 
-def exportRaw(upload, df, URL):
+# A raw export method that returns an unclosed file, the fileName, and a string URL to be shared. 
+## upload: the origional uploadedFile used to create df
+## df: the changed values of the uploaded file
+## URL: the domain to append a parameter to e.g. https://pg.com/
+## exportFilePath: the path to export the data inclusive of the file name e.g. /users/user/config.yaml. 
+def exportRaw(upload, df, URL, exportFilePath):
 
     upload = copy.deepcopy(upload)
 
     # Get the file details
     file_details = {"Filename":upload.name,"FileType":upload.type,"FileSize":upload.size}
+    fname = file_details['Filename'].split(".", 1)[0] + ".yaml"
 
-    fname = file_details['Filename'].split(".", 1)[0] + "_new.yaml"
-    newFile = open(fname, "w")
+    newFile = open(exportFilePath, "w")
     line_to_comment = YAML2ST.prepComments(upload)
     YAML2ST.recursiveExport(df, [""], newFile, line_to_comment, YAML2ST.lineCheck(line_to_comment, 0, newFile))
     newFile.close()
 
-    with open(fname, "r") as f:
-        if URL != "":
-            return f, fname, str(URL + "?YAML2URL=" + YAML2ST.urlEncode(YAML2UploadedFile(fname)))
-        else: 
-            return f, fname, str("?YAML2URL=" + YAML2ST.urlEncode(YAML2UploadedFile(fname)))
+    return str(URL + "?YAML2URL=" + YAML2ST.urlEncode(YAML2UploadedFile(exportFilePath)))
 
 
 # Is a pre-formatted export method that posts a Button Input Widget and Code Input Widget for
