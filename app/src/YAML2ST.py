@@ -296,6 +296,8 @@ class YAML2ST:
             __literalCommand = str('stObject.' + literalParam['w'] + '(label=label, options=value, ' + wParameters + 'index=index, key=breadcrumb)')
         elif literalParam['w'] == 'select_slider' or literalParam['w'] == 'multiselect': #has no index param but has options param
             __literalCommand = str('stObject.' + literalParam['w'] + '(label=label, options=value, ' + wParameters + 'key=breadcrumb)')
+        elif literalParam['w'] == 'checkbox':
+            __literalCommand = str('stObject.' + literalParam['w'] + '(label=label, value=eval(value), ' + wParameters + 'key=breadcrumb)')
         else:
             __literalCommand = str('stObject.' + literalParam['w'] + '(label=label, value=value, ' + wParameters + 'key=breadcrumb)')
         
@@ -378,10 +380,10 @@ class YAML2ST:
                     value = str(value) # Housekeeping
                     
                     # Boolean
-                    if value == 'True':
+                    if value == 'True' or value == 'true':
                         literalParam['w'] = 'checkbox'
                         #literalParam['type'] = "bool"
-                    elif value == 'False':
+                    elif value == 'False' or value == 'false':
                         literalParam['w'] = 'checkbox'
                         #literalParam['type'] = "bool"
 
