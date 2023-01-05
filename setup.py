@@ -11,7 +11,7 @@ classifiers = [
 
 setup(
     name="YAML2ST",
-    version="1.0.18",
+    version="1.0.19",
     description="YAML2ST automates streamlit input widgets from a YAML.",
     long_description=long_description,
     long_description_content_type="text/markdown",
