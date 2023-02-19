@@ -6,7 +6,7 @@ import ast
 import io
 import os
 import urllib
-from streamlit.uploaded_file_manager import UploadedFile, UploadedFileRec
+from streamlit.runtime.uploaded_file_manager import UploadedFile, UploadedFileRec
 import yaml
 import json
 import copy
