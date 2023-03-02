@@ -1,16 +1,21 @@
-from decimal import Decimal
-from dateutil import parser
-from datetime import datetime
 import re
 import ast
 import io
 import os
 import urllib
-from streamlit.uploaded_file_manager import UploadedFile, UploadedFileRec
 import yaml
 import json
 import copy
 import pandas as pd
+
+from decimal import Decimal
+from dateutil import parser
+from datetime import datetime
+
+try: 
+    from streamlit.uploaded_file_manager import UploadedFile, UploadedFileRec
+except:
+    from streamlit.runtime.uploaded_file_manager import UploadedFile, UploadedFileRec
 
 
 PERSISTDECIMAL = True # e.g. if YAML value 0.01 and user wants the value to be 0.001. Keep True for now. 
