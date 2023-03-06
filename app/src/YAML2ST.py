@@ -13,7 +13,7 @@ from dateutil import parser
 from datetime import datetime
 
 try: 
-    from streamlit.uploaded_file_manager import UploadedFile, UploadedFileRec
+    from streamlit.uploaded_file_manager import UploadedFile, UploadedFileRec # type: ignore
 except:
     from streamlit.runtime.uploaded_file_manager import UploadedFile, UploadedFileRec
 
