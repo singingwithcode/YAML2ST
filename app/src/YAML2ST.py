@@ -108,20 +108,25 @@ class YAML2ST:
         line_to_comment = {}
         if upload: 
             for index, line in enumerate(upload):
-                line2 = str(line.decode('utf-8')).strip() # strip() removes the /n
 
-                # Store the lines
-                if line2.lstrip(' ').startswith("#") or line2.lstrip(' ').startswith("---"): # Regular comment or beginning of YAML
-                    line_to_comment[str(index)] = line2
-                elif line2.find('#') != -1: # locates the comment and stores the comment
-                    sindex = line2.find('#')
-                    if not YAML2ST.__representsHex(line2[sindex:0]):
-                        line_to_comment['~' + str(index+1)] = line2[sindex:len(line2)]
-        
+                line2 = str(line.decode('utf-8'))
+                if not line2.lstrip(' ').startswith("\n"): # it is an intended white space
+                    line2 = line2.strip() # strip() removes the /n
+
+                    # Store the lines
+                    if line2.lstrip(' ').startswith("#") or line2.lstrip(' ').startswith("---"): # Regular comment or beginning of YAML
+                        line_to_comment[str(index)] = line2
+                    elif line2.find('#') != -1: # locates the comment and stores the comment
+                        sindex = line2.find('#')
+                        if not YAML2ST.__representsHex(line2[sindex:0]):
+                            line_to_comment['~' + str(index+1)] = line2[sindex:len(line2)]
+                else: # For blank lines
+                    line_to_comment[str(index)] = ""
+
         return line_to_comment
 
 
-    # Recursively parses each YAML line ('/n') seperating any YAML comments 
+    # Recursively parses each YAML line ('/n') separating any YAML comments 
     def __forceConfig(dataString):
         forceVal = "" 
         lIndex = dataString.find("\n")
@@ -325,7 +330,7 @@ class YAML2ST:
 
     # Recursively, manually, and/or dynamically builds a YAML or JSON file's params to streamlit input widgets.
     ## dict: a dictionary of the data, less comments
-    ## df: a pandas dataframe for where the streamlit input wiget value updates are sent
+    ## df: a pandas dataframe for where the streamlit input widget value updates are sent
     ## breadcrumbs: used to track the hierarchy. Typically start with a blank []
     ## stObject: a streamlit object on where to write the input widgets to
     ## data_string: a string of all the data in the YAML file for #FORCE. To ignore, use ""
@@ -461,7 +466,13 @@ def urlDecode(urlParamDict):
 # YAML file to Streamlit's UploadedFile
 def YAML2UploadedFile(filePath):
     uploadedFileRec = UploadedFileRec(int(999), str("config.yaml"), str("application/x-yaml"), open(filePath, "rb").read())
-    return UploadedFile(uploadedFileRec)
+    try:
+        # The original way
+        return UploadedFile(uploadedFileRec)
+    except: 
+        # Added for newer versions as it uses FileURLsProto
+        # https://github.com/streamlit/streamlit/blob/0862d5212f3e750f97f09c81a9a185862ed33072/lib/streamlit/runtime/uploaded_file_manager.py#L63
+        return UploadedFile(uploadedFileRec, '')
 
 
 # A raw export method that returns an unclosed file, the fileName, and a string URL to be shared. 
